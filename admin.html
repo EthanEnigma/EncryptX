@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Ajouter Utilisateur</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <h2>Ajouter un utilisateur</h2>
+        <input type="text" id="new-username" placeholder="Nom d'utilisateur">
+        <input type="password" id="new-password" placeholder="Mot de passe">
+        <input type="text" id="hwid" placeholder="HWID">
+        <button onclick="addUser()">Ajouter</button>
+        <p id="admin-message"></p>
+    </div>
+
+    <script>
+        async function addUser() {
+            const username = document.getElementById("new-username").value;
+            const password = document.getElementById("new-password").value;
+            const hwid = document.getElementById("hwid").value;
+
+            const response = await fetch("/api/add-user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password, hwid })
+            });
+
+            const data = await response.json();
+            document.getElementById("admin-message").innerText = data.message;
+        }
+    </script>
+</body>
+</html>
